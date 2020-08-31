@@ -1,0 +1,16 @@
+apiVersion: v1
+kind: Pod
+metadata:
+  name: config-map-pod
+spec:
+  containers:
+  - name: config-map-pod
+    image: busybox
+    command: ["sh", "-c", "echo $(MY_VAR) && sleep 300;"]
+    env:
+    - name: MY_VAR
+      valueFrom:
+        configMapKeyRef:
+          name: test-configmap
+          key: firstKey
+  restartPolicy: Never

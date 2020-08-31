@@ -1,0 +1,31 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: backend
+  labels:
+    app: backend
+spec:
+  selector:
+    matchLabels:
+      app: backend
+  replicas: 1
+  minReadySeconds: 15
+  strategy:
+    type: RollingUpdate
+    rollingUpdate:
+      maxUnavailable: 1
+      maxSurge: 1
+  template:
+    metadata:
+      labels:
+        app: backend
+    spec:
+      containers:
+      - image: varun3008/kubernetes_backend
+        imagePullPolicy: Never
+        name: backend
+        env:
+          - name: WEATHER_API_URL
+            value: "https://api.openweathermap.org/data/2.5/weather?q="
+        ports:
+          - containerPort: 8080
